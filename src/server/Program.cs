@@ -1,12 +1,18 @@
 using Server.Data;
+using Server.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddEndpointsApiExplorer()
-    .AddSwaggerGen()
+    .AddSwaggerGen();
+
+builder.Services
     .AddDbContext<ChatContext>()
-    .AddControllers();
+    .AddControllers()
+    .AddControllersAsServices();
+
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -17,8 +23,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.MapControllers();
+app.MapHub<ChatHub>("/chatHub");
 
 app.Run();

@@ -6,6 +6,11 @@ using Server.Models;
 
 namespace Server.Controllers
 {
+    public class UserList
+    {
+        public IEnumerable<User>? Users { get; set; }
+    }
+
     [ApiController]
     [Route("api/users")]
     public class UserController : Controller
@@ -18,9 +23,9 @@ namespace Server.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<User> GetAll()
+        public UserList GetAll()
         {
-            return _db.Users;
+            return new UserList { Users = _db.Users };
         }
     }
 }

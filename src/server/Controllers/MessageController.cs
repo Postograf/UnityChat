@@ -1,11 +1,18 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 using Server.Data;
 using Server.Models;
 
 namespace Server.Controllers
 {
+
+    public class MessageList
+    {
+        public IEnumerable<Message> Messages { get; set; }
+    }
+
     [ApiController]
     [Route("api/messages")]
     public class MessageController : Controller
@@ -18,9 +25,17 @@ namespace Server.Controllers
         }
 
         [HttpGet("{count}")]
-        public IEnumerable<Message> GetMessages(int count)
+        public MessageList GetMessages(int count)
         {
-            return _db.Messages.OrderByDescending(x => x.Id).Take(count);
+            return new MessageList 
+            { 
+                Messages = _db
+                    .Messages
+                    .Include(m => m.Sender)
+                    .OrderBy(m => m.Id)
+                    .ToList()
+                    .TakeLast(count)
+            };
         }
     }
 }
