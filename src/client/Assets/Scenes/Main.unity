@@ -236,7 +236,7 @@ MonoBehaviour:
     - {fileID: 1443783723}
     - {fileID: 1960766721}
   _defaultColor: {r: 1, g: 1, b: 1, a: 1}
-  _serverUrl: https://localhost:7240
+  _serverUrl: https://localhost:5000
 --- !u!224 &53003815
 RectTransform:
   m_ObjectHideFlags: 0
